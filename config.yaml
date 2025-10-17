@@ -1,0 +1,50 @@
+# Amazon Scraper Configuration
+
+scraper:
+  rate_limit:
+    delay_between_requests: 2.0  # seconds
+    max_requests_per_minute: 30
+    random_delay_range: [0.5, 1.5]  # random delay range in seconds
+  
+  browser:
+    headless: true
+    viewport:
+      width: 1920
+      height: 1080
+    user_agent: "auto"  # "auto" for random, or specify custom user agent
+    timeout: 30000  # milliseconds
+  
+  retry:
+    max_retries: 3
+    retry_delay: 5.0  # seconds
+    exponential_backoff: true
+
+proxy:
+  enabled: false
+  rotation: true
+  timeout: 10.0  # seconds
+  proxies: []  # List of proxy URLs: ["http://user:pass@proxy:port", ...]
+
+storage:
+  output_format: "csv"  # csv, json, database
+  output_directory: "data"
+  database:
+    enabled: false
+    type: "sqlite"  # sqlite, postgresql, mysql
+    connection_string: "sqlite:///amazon_products.db"
+
+amazon:
+  base_url: "https://www.amazon.com"
+  domains:
+    - "amazon.com"
+    - "amazon.co.uk"
+    - "amazon.de"
+    - "amazon.fr"
+    - "amazon.it"
+    - "amazon.es"
+
+# Logging configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/scraper.log"
