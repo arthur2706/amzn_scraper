@@ -398,3 +398,4 @@ class ProductParser:
         if url:
             return self._extract_asin(url)
         return None
+

@@ -106,3 +106,4 @@ if __name__ == "__main__":
         print("Make sure you have:")
         print("1. Installed dependencies: py -m pip install -r requirements.txt")
         print("2. Installed Playwright: py -m playwright install chromium")
+

@@ -177,3 +177,4 @@ class Config:
             updates: Dictionary of configuration updates
         """
         self._config = self._merge_configs(self._config, updates)
+

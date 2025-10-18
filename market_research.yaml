@@ -1,0 +1,145 @@
+# Market Research Configuration
+
+# Default search seeds for finding product opportunities
+default_seeds:
+  - "storage basket"
+  - "organizer bins"
+  - "adhesive hooks"
+  - "drawer organizer"
+  - "dog chew toy"
+  - "pet grooming glove"
+  - "cat litter mat"
+  - "yoga blocks"
+  - "resistance bands non slip"
+  - "camping stakes"
+  - "industrial wipes"
+  - "desiccant packets"
+  - "lab beaker set"
+  - "baby closet dividers"
+  - "stroller hook"
+  - "toddler balance stones"
+
+# Filtering criteria for product opportunities
+filters:
+  # Minimum price threshold (in local currency)
+  min_price: 15.0
+  
+  # Minimum "bought in past month" badge count
+  min_badge_count: 100
+  
+  # Maximum review count (products with fewer reviews are preferred)
+  max_review_count: 50
+  
+  # Number of pages to scrape per search seed
+  pages_per_seed: 7
+  
+  # Exclude electronic products (they often have complex requirements)
+  exclude_electronics: true
+  
+  # Blocked brands (major brands to avoid for niche opportunities)
+  blocked_brands:
+    - "amazon basics"
+    - "philips"
+    - "samsung"
+    - "apple"
+    - "bosch"
+    - "black decker"
+    - "dewalt"
+    - "makita"
+    - "nike"
+    - "adidas"
+    - "reebok"
+    - "under armour"
+    - "tommy hilfiger"
+    - "levi s"
+    - "dyson"
+    - "3m"
+    - "scotch"
+    - "gorilla"
+    - "command"
+    - "oxo"
+    - "stanley"
+    - "milwaukee"
+    - "karcher"
+    - "lenovo"
+    - "logitech"
+
+# Badge patterns for different Amazon domains
+badge_patterns:
+  com: "(?i)\\b(\\d+(?:\\.\\d+)?K\\+?|\\d+\\+?)\\s+bought in past month\\b"
+  co.uk: "(?i)\\b(\\d+(?:\\.\\d+)?K\\+?|\\d+\\+?)\\s+bought in past month\\b"
+  de: "(?i)\\b(\\d+(?:\\.\\d+)?K\\+?|\\d+\\+?)\\s*mal im letzten monat gekauft\\b"
+  fr: "(?i)\\b(\\d+(?:\\.\\d+)?K\\+?|\\d+\\+?)\\s*achet[ée] au cours du dernier mois\\b"
+
+# Electronic product detection patterns
+electronic_patterns:
+  - "battery"
+  - "batteries"
+  - "rechargeable"
+  - "usb"
+  - "led"
+  - "watt"
+  - "mAh"
+  - "power bank"
+  - "solar"
+  - "adapter"
+  - "charger"
+  - "charging"
+  - "\\bAC\\b"
+  - "\\bDC\\b"
+  - "plug"
+  - "cord"
+  - "cable"
+  - "\\b12v\\b"
+  - "\\b24v\\b"
+  - "\\b110v\\b"
+  - "\\b220v\\b"
+
+# Allowed categories for product opportunities
+allowed_categories:
+  - "home"
+  - "kitchen"
+  - "household"
+  - "home & kitchen"
+  - "home & garden"
+  - "garden"
+  - "tools"
+  - "tool"
+  - "pet"
+  - "baby"
+  - "toys"
+  - "sports"
+  - "outdoors"
+  - "industrial"
+  - "scientific"
+  - "smart home"
+  - "diy"
+  - "patio, lawn & garden"
+  - "toys & games"
+  - "baby products"
+  - "sports & outdoors"
+
+# Rate limiting for market research (separate from main scraper)
+rate_limiting:
+  # Delay between requests in seconds
+  delay_between_requests: 0.8
+  
+  # Random delay range in seconds
+  random_delay_range: [0.0, 0.8]
+  
+  # Maximum requests per minute
+  max_requests_per_minute: 60
+
+# Output settings for market research
+output:
+  # Default output format
+  format: "json"
+  
+  # Output directory
+  directory: "data/market_research"
+  
+  # Include timestamp in filename
+  include_timestamp: true
+  
+  # Maximum results to save (0 = no limit)
+  max_results: 0

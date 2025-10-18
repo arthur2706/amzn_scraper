@@ -169,6 +169,29 @@ async def search_and_scrape():
 products = asyncio.run(search_and_scrape())
 ```
 
+### Market Research - Find Product Opportunities
+
+```python
+from amzn_scraper import MarketResearch, Config
+
+async def find_opportunities():
+    config = Config()
+    market_research = MarketResearch(config)
+    
+    # Find products with high sales volume but low reviews
+    opportunities = await market_research.run_research(
+        domains=["com", "co.uk"],  # Amazon domains to search
+        min_price=15.0,            # Minimum price threshold
+        min_badge=100,             # Minimum "bought in past month" count
+        max_reviews=50,            # Maximum review count
+        pages_per_seed=5           # Pages to scrape per search term
+    )
+    
+    return opportunities
+
+opportunities = asyncio.run(find_opportunities())
+```
+
 ### Save Data to Different Formats
 
 ```python
@@ -294,11 +317,84 @@ amzn_scraper/
 │   ├── __init__.py
 │   └── test_scraper.py          # Test suite
 ├── data/                        # Output directory
-├── config.yaml                  # Configuration file
+├── config.yaml                  # Main scraper configuration
+├── market_research.yaml         # Market research specific configuration
 ├── .env.example                 # Environment variables template
 ├── requirements.txt             # Python dependencies
 ├── setup.py                     # Package setup
 └── README.md                    # This file
+```
+
+## Command Line Interface
+
+The scraper includes a powerful CLI for easy usage:
+
+```bash
+# Scrape single product
+py -m amzn_scraper.cli product "https://www.amazon.com/dp/B08N5WRWNW"
+
+# Search products
+py -m amzn_scraper.cli search "laptop" --pages 2
+
+# Scrape multiple products
+py -m amzn_scraper.cli products "url1" "url2" "url3"
+
+# Market research - find product opportunities
+py -m amzn_scraper.cli market-research --domains com co.uk --min-price 20 --min-badge 200
+
+# Market research with custom search terms
+py -m amzn_scraper.cli market-research --seeds "kitchen organizer" "pet toys" "yoga accessories"
+
+# Market research with all options
+py -m amzn_scraper.cli market-research \
+  --domains com co.uk de fr \
+  --min-price 15.0 \
+  --min-badge 100 \
+  --max-reviews 50 \
+  --pages-per-seed 7 \
+  --seeds "storage basket" "organizer bins"
+```
+
+### Market Research CLI Options
+
+The `market-research` command helps you find product opportunities by searching for items with:
+- High sales volume ("bought in past month" badges)
+- Low review counts (indicating newer/less saturated products)
+- Non-electronic products (to avoid complex electronics)
+- Excluded major brands (to find niche opportunities)
+
+### Market Research Configuration
+
+Market research settings are configured in `market_research.yaml`:
+
+```yaml
+# Default search seeds
+default_seeds:
+  - "storage basket"
+  - "organizer bins"
+  - "adhesive hooks"
+
+# Filtering criteria
+filters:
+  min_price: 15.0
+  min_badge_count: 100
+  max_review_count: 50
+  pages_per_seed: 7
+  exclude_electronics: true
+  
+  # Blocked brands
+  blocked_brands:
+    - "amazon basics"
+    - "philips"
+    - "samsung"
+    # ... more brands
+
+# Badge patterns for different domains
+badge_patterns:
+  com: "(?i)\\b(\\d+(?:\\.\\d+)?K\\+?|\\d+\\+?)\\s+bought in past month\\b"
+  co.uk: "(?i)\\b(\\d+(?:\\.\\d+)?K\\+?|\\d+\\+?)\\s+bought in past month\\b"
+  de: "(?i)\\b(\\d+(?:\\.\\d+)?K\\+?|\\d+\\+?)\\s*mal im letzten monat gekauft\\b"
+  fr: "(?i)\\b(\\d+(?:\\.\\d+)?K\\+?|\\d+\\+?)\\s*achet[ée] au cours du dernier mois\\b"
 ```
 
 ## Contributing
